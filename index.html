@@ -1,15 +1,3 @@
-
-<!--    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-        BDHO  Converter
-        Designed by Amit Barman 
-        Date - 14/06/2022
-        Github- https://github.com/AmitBarman99
-        Website- https://abhisandhi.netlify.app/
-
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,90 +5,73 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BDHO Converter</title>
+    <title>NUMBER SYSTEM CONVERTER</title>
     <link rel="stylesheet" href="style.css">
     <!-- meta tags -->
     <meta name='subject' content='Number system converter'>
-    <meta name='copyright' content='Abhisandhi'>
-    <meta name='author' content='Amit Barman'>
-    <meta name='designer' content='Amit Barman'>
+    <meta name='copyright' content='TANIM'>
+    <meta name='author' content='TANIM'>
+    <meta name='designer' content='TANIM'>
     <meta name='url' content=''>
     <meta name='rating' content='General'>
-
-
     <!-- open graph tags -->
     <meta property="og:url" content="" />
     <meta property="og:type" content="Number system converter" />
-    <meta property="og:title" content="BDHO converter" />
+    <meta property="og:title" content="NUMBER SYSTEM CONVERTER" />
     <meta property="og:description" content="You can convert the number system here" />
-    <meta property="og:image"
-        content="https://icon-library.com/images/ios-gallery-icon/ios-gallery-icon-29.jpg" />
-    <meta name='og:country-name' content='INDIA'>
-
-
-    <!-- twitter card meta tag -->
-    <meta name="twitter:card" content="Number system converter" />
-    <meta name="twitter:site" content="@imamitbarman99" />
-    <meta name="twitter:creator" content="@imamitbarman99" />
-    <meta property="og:url" content="" />
-    <meta property="og:title" content="BDHO converter" />
-    <meta property="og:description" content="You can convert the number system here" />
-    <meta property="og:image"
-        content="https://icon-library.com/images/ios-gallery-icon/ios-gallery-icon-29.jpg" />
+    <meta name='og:country-name' content='Bangladesh'>
+    
+    <!-- Font for cool styling -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
 </head>
 
 <body>
-
-    <div class="container">
-        <!-- code start from here -->
-        <div class="card">
-            <div class="card-image">
-                <h2 class="card-heading">
-                    Get started
-                    <small>Let convert number system</small>
-
-                    <div class="gif">
-                        <img src="./output-onlinegiftools.gif" alt="khaby-lame">
-
-                    </div>
-                </h2>
-            </div>
-            <form class="card-form">
-                <select id="inpType" class="iType">
-                    <option value="inpdec">Decimal</option>
-                    <option value="inpbin">Binary</option>
-                    <option value="inpoct">Octal</option>
-                    <option value="inphex">Hexa-decimal</option>
-                </select>
-
-                <input class="iNum" id="inpNum">
-
-
-
-                <div class="action">
-                    <button class="action-button" onclick="return convert()">Convert</button>
-                </div>
-
-                <select class="oType" id="opType">
-                    <option value="opbin">Binary</option>
-                    <option value="opoct">Octal</option>
-                    <option value="ophex">Hexa-decimal</option>
-                    <option value="opdec">Decimal</option>
-                </select>
-
-                <input id="opNum" class="oNum">
-
-
-            </form>
-            <div class="card-info">
-                <p>Hope you enjoy it. follow me in<a href="https://github.com/AmitBarman99/" target="_blank">Github</a> or knock me <a
-                        href="https://abhisandhi.netlify.app/" target="_blank">here</a></p>
-            </div>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="math-symbols">
+            <span>∑</span>
+            <span>π</span>
+            <span>√</span>
+            <span>∞</span>
         </div>
     </div>
 
+    <!-- Main Content -->
+    <div class="container">
+        <form class="card-form">
+            <select id="inpType" class="iType">
+                <option value="inpdec">Decimal</option>
+                <option value="inpbin">Binary</option>
+                <option value="inpoct">Octal</option>
+                <option value="inphex">Hexa-decimal</option>
+            </select>
+
+            <input class="iNum" id="inpNum" placeholder="Enter a number">
+
+            <div class="action">
+                <button class="action-button" onclick="return convert()">Convert</button>
+            </div>
+
+            <select class="oType" id="opType">
+                <option value="opbin">Binary</option>
+                <option value="opoct">Octal</option>
+                <option value="ophex">Hexa-decimal</option>
+                <option value="opdec">Decimal</option>
+            </select>
+
+            <input id="opNum" class="oNum" placeholder="Result">
+        </form>
+    </div>
+
+    <!-- External JS -->
     <script src="./mainJs.js"></script>
 
+    <!-- JS for Preloader -->
+    <script>
+        window.addEventListener('load', () => {
+            document.getElementById('preloader').style.display = 'none';
+        });
+    </script>
 
 </body>
 
