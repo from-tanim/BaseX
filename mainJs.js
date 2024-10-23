@@ -1,14 +1,4 @@
 
-//*************************************************************************** */
-
-            // BDHO Converter
-            // Number system converter
-            // design by Amit barman on 14/06/2022
-
-            //follow me on github - https://github.com/AmitBarman99/
-
-//*************************************************************************** */
-//conversion 
 
 function convert(){
     var iType=document.getElementById("inpType").value;
@@ -134,4 +124,3 @@ function hex_to_bin(iNum){
 function hex_to_oct(iNum){
     return parseInt(iNum,16).toString(8);
 }
-
