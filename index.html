@@ -85,6 +85,8 @@
             </select>
 
             <input id="opNum" class="oNum" placeholder="Result">
+         <!-- Copy Button -->
+            <button type="button" class="copy-button" onclick="copyResult()">Copy</button>
         </form>
     </div>
 
@@ -96,8 +98,17 @@
         window.addEventListener('load', () => {
             document.getElementById('preloader').style.display = 'none';
         });
-    </script>
 
+        // JavaScript to copy result to clipboard
+        function copyResult() {
+            const resultField = document.getElementById('opNum');
+            resultField.select();
+            resultField.setSelectionRange(0, 99999); // For mobile devices
+            document.execCommand('copy');
+
+            alert("Copied: " + resultField.value);
+        }
+    </script>
 </body>
 
 </html>
