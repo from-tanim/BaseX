@@ -1,126 +1,91 @@
+// Register the service worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then((registration) => {
+        console.log('Service Worker registered with scope:', registration.scope);
+      })
+      .catch((error) => {
+        console.log('Service Worker registration failed:', error);
+      });
+  });
+}
 
+// Number system conversion functions
+function convert() {
+    const iType = document.getElementById("inpType").value;
+    const iNum = document.getElementById("inpNum").value.trim();
+    const oType = document.getElementById("opType").value;
+    let oNum;
 
-function convert(){
-    var iType=document.getElementById("inpType").value;
-    var iNum=document.getElementById("inpNum").value;
-    var oType=document.getElementById("opType").value;
-    var oNum;
-
-    //all the conditions
-
-    //decimal to binary,octal and hexa-decimal
-    if(iType=="inpdec" && oType=="opbin"){
-        oNum=dec_to_bin(iNum);
-    }
-    if(iType=="inpdec" && oType=="opoct"){
-        oNum=dec_to_oct(iNum);
-    }
-    if(iType=="inpdec" && oType=="ophex"){
-        oNum=dec_to_hex(iNum);
-    }
-    if(iType=="inpdec" && oType=="opdec"){
-        oNum="Invalid";
-    }
-
-    //binary to decimal,octal and hexa-decimal
-    if(iType=="inpbin" && oType=="opdec"){
-        oNum=bin_to_dec(iNum);
-    }
-    if(iType=="inpbin" && oType=="opoct"){
-        oNum=bin_to_oct(iNum);
-    }
-    if(iType=="inpbin" && oType=="ophex"){
-        oNum=bin_to_hex(iNum);
-    }
-    if(iType=="inpbin" && oType=="opbin"){
-        oNum="Invalid";
+    // Validate input
+    if (!validateInput(iNum, iType)) {
+        document.getElementById("opNum").value = "Invalid Input";
+        return false;
     }
 
-    //octal to decimal, binary and hexa-decimal
-
-    if(iType=="inpoct" && oType=="opdec"){
-        oNum=oct_to_dec(iNum);
-    }
-    if(iType=="inpoct" && oType=="opbin"){
-        oNum=oct_to_bin(iNum);
-    }
-    if(iType=="inpoct" && oType=="ophex"){
-        oNum=oct_to_hex(iNum);
-    }
-    if(iType=="inpoct" && oType=="opoct"){
-        oNum="Invalid";
-    }
-
-    //hexa-decimal to decimal,binary and octal
-
-    if(iType=="inphex" && oType=="opdec"){
-        oNum=hex_to_dec(iNum);
-    }
-    if(iType=="inphex" && oType=="opbin"){
-        oNum=hex_to_bin(iNum);
-    }
-    if(iType=="inphex" && oType=="opoct"){
-        oNum=hex_to_oct(iNum);
-    }
-    if(iType=="inphex" && oType=="ophex"){
-        oNum="Invalid";
+    // Handle same input and output types
+    if (iType === oType) {
+        oNum = iNum;  // Return same value if types match
+    } else {
+        const conversions = {
+            inpdec: { opbin: dec_to_bin, opoct: dec_to_oct, ophex: dec_to_hex },
+            inpbin: { opdec: bin_to_dec, opoct: bin_to_oct, ophex: bin_to_hex },
+            inpoct: { opdec: oct_to_dec, opbin: oct_to_bin, ophex: oct_to_hex },
+            inphex: { opdec: hex_to_dec, opbin: hex_to_bin, opoct: hex_to_oct }
+        };
+        oNum = conversions[iType][oType](iNum);
     }
 
     document.getElementById("opNum").value = oNum;
-    // preventDefault();
     return false;
 }
 
-// function for decimal to binary conversion
-function dec_to_bin(iNum){
-    // return parseInt(iNum).toString(2);
-    return parseFloat(iNum).toString(2);
-}
-// function for decimal to octal conversion
-function dec_to_oct(iNum){
-    return parseFloat(iNum).toString(8);
-}
-// function for decimal to hexa-decimal conversion
-function dec_to_hex(iNum){
-    return parseFloat(iNum).toString(16);
+// Input validation function
+function validateInput(iNum, iType) {
+    const patterns = {
+        inpbin: /^[01]+$/,
+        inpoct: /^[0-7]+$/,
+        inpdec: /^[0-9]+$/,
+        inphex: /^[0-9A-Fa-f]+$/
+    };
+    return patterns[iType].test(iNum);
 }
 
-// function for binary to decimal conversion
-function bin_to_dec(iNum){
-    return parseInt(iNum,2).toString(10);
+// Conversion functions
+function dec_to_bin(iNum) {
+    return parseInt(iNum, 10).toString(2);
 }
-// function for binary to octal conversion
-function bin_to_oct(iNum){
-    return parseInt(iNum,2).toString(8);
+function dec_to_oct(iNum) {
+    return parseInt(iNum, 10).toString(8);
 }
-// function for binary to hexa-decimal conversion
-function bin_to_hex(iNum){
-    return parseInt(iNum,2).toString(16);
+function dec_to_hex(iNum) {
+    return parseInt(iNum, 10).toString(16).toUpperCase();
 }
-
-
-// function for octal to decimal conversion
-function oct_to_dec(iNum){
-    return parseInt(iNum,8).toString(10);
+function bin_to_dec(iNum) {
+    return parseInt(iNum, 2).toString(10);
 }
-// function for octal to binary conversion
-function oct_to_bin(iNum){
-    return parseInt(iNum,8).toString(2);
+function bin_to_oct(iNum) {
+    return parseInt(iNum, 2).toString(8);
 }
-// function for octal to hexa-decimal conversion
-function oct_to_hex(iNum){
-    return parseInt(iNum,8).toString(16);
+function bin_to_hex(iNum) {
+    return parseInt(iNum, 2).toString(16).toUpperCase();
 }
-
-// function for hexa-decimal to decimal conversion
-function hex_to_dec(iNum){
-    return parseInt(iNum,16).toString(10);
+function oct_to_dec(iNum) {
+    return parseInt(iNum, 8).toString(10);
 }
-// function for hexa-decimal to binary conversion
-function hex_to_bin(iNum){
-    return parseInt(iNum,16).toString(2);
+function oct_to_bin(iNum) {
+    return parseInt(iNum, 8).toString(2);
 }
-// function for hexa-decimal to octal conversion
-function hex_to_oct(iNum){
-    return parseInt(iNum,16).toString(8);
+function oct_to_hex(iNum) {
+    return parseInt(iNum, 8).toString(16).toUpperCase();
+}
+function hex_to_dec(iNum) {
+    return parseInt(iNum, 16).toString(10);
+}
+function hex_to_bin(iNum) {
+    return parseInt(iNum, 16).toString(2);
+}
+function hex_to_oct(iNum) {
+    return parseInt(iNum, 16).toString(8);
 }
