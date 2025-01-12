@@ -1,0 +1,116 @@
+/* CSS suggestion */
+#preloader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: #f0f0f0;
+    z-index: 999;
+}
+
+
+
+/* Cool background using a gradient */
+body {
+    
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #12774d;
+}
+
+/* Symbolic Background Styling */
+.symbolic-background {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: 0; /* Ensure it stays behind other content */
+}
+
+.symbolic-background span {
+    position: absolute;
+    font-size: 3rem;
+    color: rgba(255, 255, 255, 0.15); /* Light color with opacity */
+    animation: floatAnimation 15s ease-in-out infinite;
+    user-select: none;
+    pointer-events: none;
+}
+
+/* Generate random positions and sizes */
+.symbolic-background span:nth-child(1) { left: 10%; top: 20%; animation-duration: 10s; }
+.symbolic-background span:nth-child(2) { left: 20%; top: 40%; animation-duration: 12s; font-size: 2rem; }
+.symbolic-background span:nth-child(3) { left: 70%; top: 10%; animation-duration: 50s; font-size: 3.5rem; }
+.symbolic-background span:nth-child(4) { left: 70%; top: 30%; animation-duration: 16s; font-size: 3rem; }
+
+.symbolic-background span:nth-child(5) { left: 17%; top: 25%; animation-duration: 10s; }
+
+.symbolic-background span:nth-child(6) { left: 20%; top: 20%; animation-duration: 10s; }
+.symbolic-background span:nth-child(7) { left: 80%; top: 20%; animation-duration: 10s; }
+.symbolic-background span:nth-child(8) { left: 95%; top: 20%; animation-duration: 10s; }
+
+/* Floating keyframe animation */
+@keyframes floatAnimation {
+    0% { transform: translateY(0px) translateX(0px) rotate(0deg); opacity: 0.8; }
+    50% { transform: translateY(-30px) translateX(20px) rotate(180deg); opacity: 0.6; }
+    100% { transform: translateY(0px) translateX(0px) rotate(360deg); opacity: 0.8; }
+}
+
+.container {
+    position: relative;
+    z-index: 1; /* Main content stays above the animated symbols */
+}
+
+
+
+/* Form Container */
+.container {
+    background-color: #000c1b;
+    padding: 60px;
+    border-radius: 40px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Form Elements */
+.card-form {
+    display: flex;
+    flex-direction: column;
+    align-items: right;
+}
+
+.iType, .iNum, .oType, .oNum {
+    margin: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #4e2b00;
+}
+
+.action-button {
+    background-color: #0072ff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  
+}
+
+.action-button:hover {
+    background-color: #005bb5;
+}
+
+/* Styling the placeholders */
+.iNum::placeholder, 
+.oNum::placeholder {
+    color: #ff5700;
+    opacity: 0.7;
+}
