@@ -1,237 +1,306 @@
-// Register the service worker
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then((registration) => {
-        console.log('Service Worker registered with scope:', registration.scope);
-      })
-      .catch((error) => {
-        console.log('Service Worker registration failed:', error);
-      });
-  });
+// Improved Number System Converter
+
+// DOM Elements
+const elements = {
+    inpType: document.getElementById('inpType'),
+    inpNum: document.getElementById('inpNum'),
+    opType: document.getElementById('opType'),
+    opNum: document.getElementById('opNum'),
+    inputError: document.getElementById('inputError'),
+    historyList: document.getElementById('historyList')
+};
+
+// Conversion patterns for validation
+const validationPatterns = {
+    inpbin: { 
+        regex: /^-?[01]+(\.[01]+)?$/,
+        error: "Please enter a valid binary number (only 0-1 and .)"
+    },
+    inpoct: { 
+        regex: /^-?[0-7]+(\.[0-7]+)?$/,
+        error: "Please enter a valid octal number (only 0-7 and .)"
+    },
+    inpdec: { 
+        regex: /^-?\d+(\.\d+)?$/,
+        error: "Please enter a valid decimal number"
+    },
+    inphex: { 
+        regex: /^-?[0-9A-Fa-f]+(\.[0-9A-Fa-f]+)?$/,
+        error: "Please enter a valid hexadecimal number (0-9, A-F)"
+    }
+};
+
+// Initialize the converter
+function init() {
+    // Register service worker
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                console.log('SW registered:', registration);
+            })
+            .catch(error => {
+                console.log('SW registration failed:', error);
+            });
+    }
+
+    // Event listeners
+    elements.inpNum.addEventListener('input', handleInputChange);
+    elements.inpType.addEventListener('change', handleInputChange);
+    elements.opType.addEventListener('change', handleInputChange);
+    
+    // Load history from localStorage
+    loadHistory();
+    
+    // Hide preloader
+    window.addEventListener('load', () => {
+        document.getElementById('preloader').style.display = 'none';
+    });
 }
 
-// Number system conversion functions
-function convert() {
-    const iType = document.getElementById("inpType").value;
-    const iNum = document.getElementById("inpNum").value.trim();
-    const oType = document.getElementById("opType").value;
-    let oNum;
+// Handle input changes (real-time conversion)
+function handleInputChange() {
+    if (elements.inpNum.value.trim() !== '') {
+        convert();
+    } else {
+        elements.opNum.value = '';
+        elements.inputError.textContent = '';
+    }
+}
 
+// Main conversion function
+function convert() {
+    const iType = elements.inpType.value;
+    const iNum = elements.inpNum.value.trim();
+    const oType = elements.opType.value;
+    
     // Validate input
     if (!validateInput(iNum, iType)) {
-        document.getElementById("opNum").value = "Invalid Input";
         return false;
     }
-
-    // Handle same input and output types
-    if (iType === oType) {
-        oNum = iNum;  // Return same value if types match
-    } else {
-        const conversions = {
-            inpdec: { opbin: dec_to_bin, opoct: dec_to_oct, ophex: dec_to_hex },
-            inpbin: { opdec: bin_to_dec, opoct: bin_to_oct, ophex: bin_to_hex },
-            inpoct: { opdec: oct_to_dec, opbin: oct_to_bin, ophex: oct_to_hex },
-            inphex: { opdec: hex_to_dec, opbin: hex_to_bin, opoct: hex_to_oct }
-        };
-        oNum = conversions[iType][oType](iNum);
+    
+    let result;
+    
+    try {
+        // Handle same input and output types
+        if (iType.replace('inp', '') === oType.replace('op', '')) {
+            result = iNum;
+        } else {
+            // Convert to decimal first as intermediary
+            const decimalValue = toDecimal(iNum, iType);
+            
+            // Convert from decimal to target type
+            result = fromDecimal(decimalValue, oType);
+        }
+        
+        // Update UI
+        elements.opNum.value = result;
+        elements.inputError.textContent = '';
+        
+        // Add to history
+        addToHistory(iNum, iType, result, oType);
+        
+    } catch (error) {
+        elements.inputError.textContent = error.message;
+        elements.opNum.value = '';
     }
-
-    document.getElementById("opNum").value = oNum;
+    
     return false;
 }
 
-// Input validation function
-function validateInput(iNum, iType) {
-    const patterns = {
-        inpbin: /^[01.]+$/,          // Binary numbers with radix point
-        inpoct: /^[0-7.]+$/,         // Octal numbers with radix point
-        inpdec: /^[0-9.]+$/,         // Decimal numbers with radix point
-        inphex: /^[0-9A-Fa-f.]+$/    // Hexadecimal numbers with radix point
+// Convert any type to decimal
+function toDecimal(number, type) {
+    const [integerPart, fractionalPart] = number.split('.');
+    let decimalValue = 0;
+    const base = getBase(type);
+    
+    // Convert integer part
+    decimalValue = parseInt(integerPart, base);
+    
+    // Convert fractional part if exists
+    if (fractionalPart) {
+        let fractionalValue = 0;
+        for (let i = 0; i < fractionalPart.length; i++) {
+            const digit = parseInt(fractionalPart[i], base);
+            fractionalValue += digit / Math.pow(base, i + 1);
+        }
+        decimalValue += decimalValue >= 0 ? fractionalValue : -fractionalValue;
+    }
+    
+    return decimalValue;
+}
+
+// Convert decimal to any type
+function fromDecimal(decimalValue, type) {
+    const base = getBase(type);
+    const isNegative = decimalValue < 0;
+    let absoluteValue = Math.abs(decimalValue);
+    
+    // Convert integer part
+    let integerPart = Math.floor(absoluteValue).toString(base).toUpperCase();
+    if (isNegative) integerPart = '-' + integerPart;
+    
+    // Convert fractional part
+    let fractionalPart = '';
+    let fractionalValue = absoluteValue - Math.floor(absoluteValue);
+    
+    if (fractionalValue > 0) {
+        fractionalPart = '.';
+        const precision = 10; // Limit fractional precision
+        
+        for (let i = 0; i < precision && fractionalValue > 0; i++) {
+            fractionalValue *= base;
+            const digit = Math.floor(fractionalValue);
+            fractionalPart += digit.toString(base).toUpperCase();
+            fractionalValue -= digit;
+        }
+    }
+    
+    return integerPart + fractionalPart;
+}
+
+// Get base from type
+function getBase(type) {
+    const typeMap = {
+        inpbin: 2, opbin: 2,
+        inpoct: 8, opoct: 8,
+        inpdec: 10, opdec: 10,
+        inphex: 16, ophex: 16
     };
-    return patterns[iType].test(iNum);
+    return typeMap[type] || 10;
 }
 
-// Conversion functions for integer and fractional parts
-
-function dec_to_bin(iNum) {
-    let [intPart, fracPart] = iNum.split('.');
-    let intBin = parseInt(intPart, 10).toString(2);
-    let fracBin = fracPart ? decToBinaryFrac(fracPart) : '';
-    return intBin + (fracBin ? '.' + fracBin : '');
-}
-
-function dec_to_oct(iNum) {
-    let [intPart, fracPart] = iNum.split('.');
-    let intOct = parseInt(intPart, 10).toString(8);
-    let fracOct = fracPart ? decToOctalFrac(fracPart) : '';
-    return intOct + (fracOct ? '.' + fracOct : '');
-}
-
-function dec_to_hex(iNum) {
-    let [intPart, fracPart] = iNum.split('.');
-    let intHex = parseInt(intPart, 10).toString(16).toUpperCase();
-    let fracHex = fracPart ? decToHexFrac(fracPart) : '';
-    return intHex + (fracHex ? '.' + fracHex : '');
-}
-
-function bin_to_dec(iNum) {
-    let [intPart, fracPart] = iNum.split('.');
-    let intDec = parseInt(intPart, 2).toString(10);
-    let fracDec = fracPart ? binToDecimalFrac(fracPart) : '';
-    return intDec + (fracDec ? '.' + fracDec : '');
-}
-
-function bin_to_oct(iNum) {
-    let [intPart, fracPart] = iNum.split('.');
-    let intOct = parseInt(intPart, 2).toString(8);
-    let fracOct = fracPart ? binToOctalFrac(fracPart) : '';
-    return intOct + (fracOct ? '.' + fracOct : '');
-}
-
-function bin_to_hex(iNum) {
-    let [intPart, fracPart] = iNum.split('.');
-    let intHex = parseInt(intPart, 2).toString(16).toUpperCase();
-    let fracHex = fracPart ? binToHexFrac(fracPart) : '';
-    return intHex + (fracHex ? '.' + fracHex : '');
-}
-
-function oct_to_dec(iNum) {
-    let [intPart, fracPart] = iNum.split('.');
-    let intDec = parseInt(intPart, 8).toString(10);
-    let fracDec = fracPart ? octToDecimalFrac(fracPart) : '';
-    return intDec + (fracDec ? '.' + fracDec : '');
-}
-
-function oct_to_bin(iNum) {
-    let [intPart, fracPart] = iNum.split('.');
-    let intBin = parseInt(intPart, 8).toString(2);
-    let fracBin = fracPart ? octToBinaryFrac(fracPart) : '';
-    return intBin + (fracBin ? '.' + fracBin : '');
-}
-
-function oct_to_hex(iNum) {
-    let [intPart, fracPart] = iNum.split('.');
-    let intHex = parseInt(intPart, 8).toString(16).toUpperCase();
-    let fracHex = fracPart ? octToHexFrac(fracPart) : '';
-    return intHex + (fracHex ? '.' + fracHex : '');
-}
-
-function hex_to_dec(iNum) {
-    let [intPart, fracPart] = iNum.split('.');
-    let intDec = parseInt(intPart, 16).toString(10);
-    let fracDec = fracPart ? hexToDecimalFrac(fracPart) : '';
-    return intDec + (fracDec ? '.' + fracDec : '');
-}
-
-function hex_to_bin(iNum) {
-    let [intPart, fracPart] = iNum.split('.');
-    let intBin = parseInt(intPart, 16).toString(2);
-    let fracBin = fracPart ? hexToBinaryFrac(fracPart) : '';
-    return intBin + (fracBin ? '.' + fracBin : '');
-}
-
-function hex_to_oct(iNum) {
-    let [intPart, fracPart] = iNum.split('.');
-    let intOct = parseInt(intPart, 16).toString(8);
-    let fracOct = fracPart ? hexToOctalFrac(fracPart) : '';
-    return intOct + (fracOct ? '.' + fracOct : '');
-}
-
-// Conversion for fractional parts
-
-// Convert decimal fraction to binary
-function decToBinaryFrac(frac) {
-    let bin = '';
-    let fracVal = parseFloat('0.' + frac);
-    while (fracVal !== 0) {
-        fracVal *= 2;
-        let digit = Math.floor(fracVal);
-        bin += digit.toString();
-        fracVal -= digit;
+// Input validation
+function validateInput(number, type) {
+    if (number === '') {
+        elements.inputError.textContent = 'Please enter a number';
+        return false;
     }
-    return bin;
-}
-
-// Convert decimal fraction to octal
-function decToOctalFrac(frac) {
-    let oct = '';
-    let fracVal = parseFloat('0.' + frac);
-    while (fracVal !== 0) {
-        fracVal *= 8;
-        let digit = Math.floor(fracVal);
-        oct += digit.toString();
-        fracVal -= digit;
+    
+    const pattern = validationPatterns[type];
+    
+    if (!pattern.regex.test(number)) {
+        elements.inputError.textContent = pattern.error;
+        return false;
     }
-    return oct;
+    
+    return true;
 }
 
-// Convert decimal fraction to hexadecimal
-function decToHexFrac(frac) {
-    let hex = '';
-    let fracVal = parseFloat('0.' + frac);
-    while (fracVal !== 0) {
-        fracVal *= 16;
-        let digit = Math.floor(fracVal);
-        hex += digit.toString(16).toUpperCase();
-        fracVal -= digit;
+// Copy result to clipboard
+function copyResult() {
+    if (!elements.opNum.value) return;
+    
+    elements.opNum.select();
+    document.execCommand('copy');
+    
+    // Show copy confirmation
+    const copyBtn = document.querySelector('.copy-button');
+    copyBtn.classList.add('copied');
+    
+    setTimeout(() => {
+        copyBtn.classList.remove('copied');
+    }, 2000);
+}
+
+// Clear all fields
+function clearFields() {
+    elements.inpNum.value = '';
+    elements.opNum.value = '';
+    elements.inputError.textContent = '';
+}
+
+// History functions
+function addToHistory(input, inputType, output, outputType) {
+    const historyItem = {
+        date: new Date(),
+        input,
+        inputType: inputType.replace('inp', ''),
+        output,
+        outputType: outputType.replace('op', '')
+    };
+    
+    // Safely get history from localStorage
+    let history;
+    try {
+        history = JSON.parse(localStorage.getItem('conversionHistory')) || [];
+    } catch (e) {
+        // If there's any error parsing, start with empty array
+        history = [];
     }
-    return hex;
-}
-
-// Convert binary fraction to decimal
-function binToDecimalFrac(frac) {
-    let dec = 0;
-    for (let i = 0; i < frac.length; i++) {
-        dec += parseInt(frac[i]) * Math.pow(2, -(i + 1));
+    
+    history.unshift(historyItem);
+    
+    // Keep only last 10 items
+    if (history.length > 02) {
+        history = history.slice(0, 02);
     }
-    return dec.toString(10).split('.')[1] || '';
+    
+    localStorage.setItem('conversionHistory', JSON.stringify(history));
+    renderHistory();
 }
 
-// Convert binary fraction to octal
-function binToOctalFrac(frac) {
-    return decToOctalFrac(binToDecimalFrac(frac));
-}
-
-// Convert binary fraction to hexadecimal
-function binToHexFrac(frac) {
-    return decToHexFrac(binToDecimalFrac(frac));
-}
-
-// Convert octal fraction to decimal
-function octToDecimalFrac(frac) {
-    let dec = 0;
-    for (let i = 0; i < frac.length; i++) {
-        dec += parseInt(frac[i]) * Math.pow(8, -(i + 1));
+function renderHistory() {
+    let history = [];
+    try {
+        const historyData = localStorage.getItem('conversionHistory');
+        if (historyData) {
+            history = JSON.parse(historyData);
+        }
+    } catch (e) {
+        console.error("Error parsing history:", e);
     }
-    return dec.toString(10).split('.')[1] || '';
-}
-
-// Convert octal fraction to binary
-function octToBinaryFrac(frac) {
-    return decToBinaryFrac(octToDecimalFrac(frac));
-}
-
-// Convert octal fraction to hexadecimal
-function octToHexFrac(frac) {
-    return decToHexFrac(octToDecimalFrac(frac));
-}
-
-// Convert hexadecimal fraction to decimal
-function hexToDecimalFrac(frac) {
-    let dec = 0;
-    for (let i = 0; i < frac.length; i++) {
-        dec += parseInt(frac[i], 16) * Math.pow(16, -(i + 1));
+    
+    elements.historyList.innerHTML = '';
+    
+    if (history.length === 0) {
+        elements.historyList.innerHTML = '<p class="no-history">No conversion history yet</p>';
+        return;
     }
-    return dec.toString(10).split('.')[1] || '';
+    
+    history.forEach((item, index) => {
+        const historyElement = document.createElement('div');
+        historyElement.className = 'history-item';
+        historyElement.innerHTML = `
+            <span class="history-time">${new Date(item.date).toLocaleTimeString()}</span>
+            <span class="history-conversion">
+                ${item.input} (${item.inputType}) → ${item.output} (${item.outputType})
+            </span>
+            <button class="history-use-btn" data-index="${index}">Use</button>
+        `;
+        elements.historyList.appendChild(historyElement);
+    });
+    
+    // Add event listeners to all "Use" buttons
+    document.querySelectorAll('.history-use-btn').forEach(button => {
+        button.addEventListener('click', (e) => {
+            useHistoryItem(parseInt(e.target.dataset.index));
+        });
+    });
 }
 
-// Convert hexadecimal fraction to binary
-function hexToBinaryFrac(frac) {
-    return decToBinaryFrac(hexToDecimalFrac(frac));
+function useHistoryItem(index) {
+    let history = [];
+    try {
+        history = JSON.parse(localStorage.getItem('conversionHistory')) || [];
+    } catch (e) {
+        console.error("Error parsing history:", e);
+    }
+    
+    if (index >= 0 && index < history.length) {
+        const item = history[index];
+        elements.inpType.value = 'inp' + item.inputType.toLowerCase();
+        elements.opType.value = 'op' + item.outputType.toLowerCase();
+        elements.inpNum.value = item.input;
+        convert();
+    }
 }
 
-// Convert hexadecimal fraction to octal
-function hexToOctalFrac(frac) {
-    return decToOctalFrac(hexToDecimalFrac(frac));
+function loadHistory() {
+    // Initialize with empty array if no history exists
+    if (!localStorage.getItem('conversionHistory')) {
+        localStorage.setItem('conversionHistory', JSON.stringify([]));
+    }
+    renderHistory();
 }
+// Initialize the app
+document.addEventListener('DOMContentLoaded', init);

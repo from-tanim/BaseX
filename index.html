@@ -5,112 +5,111 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NUMBER SYSTEM CONVERTER</title>
+    <title>BaseX Converter</title>
     <link rel="stylesheet" href="Assets/style.css">
     <!-- meta tags -->
-    <meta name='subject' content='Number system converter'>
-    <meta name='copyright' content='TANIM'>
+    <meta name='description' content='Convert between decimal, binary, octal, and hexadecimal number systems'>
+    <meta name='keywords' content='number converter, binary, decimal, octal, hexadecimal'>
     <meta name='author' content='TANIM'>
-    <meta name='designer' content='TANIM'>
-    <meta name='url' content=''>
-    <meta name='rating' content='General'>
-    <!-- open graph tags -->
-    <meta property="og:url" content="" />
-    <meta property="og:type" content="Number system converter" />
-    <meta property="og:title" content="NUMBER SYSTEM CONVERTER" />
-    <meta property="og:description" content="You can convert the number system here" />
-    <meta name='og:country-name' content='Bangladesh'>
-    
-    <!-- Font for cool styling -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" href="Assets/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
-  <!-- Symbolic Animated Background -->
-<div class="symbolic-background">
+  <div id="preloader">
+        <img src="https://i.ibb.co/dJJGHGwq/favicon-Copy.png" alt="Basex Converter">
+    </div>
+  
+  
+    <!-- Symbolic Animated Background -->
+    <div class="symbolic-background">
+        <span>∑</span>
+        <span>π</span>
+        <span>√</span>
+        <span>∞</span>
+        <span>1</span>
+        <span>A</span>
+        <span>0</span>
+        <span>8</span>
+    </div>
+
+    
    
-  
-  <span>∑</span>
-    <span>π</span>
-    <span>√</span>
-    <span>∞</span>
-  
-  <span>1</span>
-    <span>A</span>
-    <span>0</span>
-    <span>8</span>
-  
-  
+    <!-- Main Content -->
+    <div class="container">
+        <div class="converter-card">
+            <h4>Number System Converter</h4>
+            
+            <div class="input-section">
+                <div class="input-group">
+                    <label for="inpType">From:</label>
+                    <select id="inpType" class="select-box">
+                        <option value="inpdec">Decimal</option>
+                        <option value="inpbin">Binary</option>
+                        <option value="inpoct">Octal</option>
+                        <option value="inphex">Hexadecimal</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <input id="inpNum" class="input-field" placeholder="Enter number" autocomplete="off">
+                    <div id="inputError" class="error-message"></div>
+                </div>
+            </div>
+
+            <div class="output-section">
+                <div class="input-group">
+                    <label for="opType">To:</label>
+                    <select id="opType" class="select-box">
+                        <option value="opbin">Binary</option>
+                        <option value="opoct">Octal</option>
+                        <option value="ophex">Hexadecimal</option>
+                        <option value="opdec" selected>Decimal</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <input id="opNum" class="input-field result-field" placeholder="Result" readonly>
+                    <button type="button" class="copy-button" onclick="copyResult()">
+                        <span class="copy-text">Copy</span>
+                        <span class="copy-success">✓ Copied!</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-button" onclick="convert()">Convert</button>
+                <button class="action-button secondary" onclick="clearFields()">Clear</button>
+            </div>
+
+            
+
+
+<div class="history-section">
+                <h3>Conversion History</h3>
+                <div id="historyList" class="history-list"></div>
+            </div>
+
+<br>
+<br>
+<div class="foot">
+        <p align="center"><img src="https://i.ibb.co/ccpQ3pgp/Binary.gif" alt="Binary-1" width="200" height="200" border="0">
+          </p>
 </div>
 
-  
-    <!-- Preloader -->
-    <div id="preloader">
-        <div class="math-symbols">
-            <span>∑</span>
-            <span>π</span>
-            <span>√</span>
-            <span>∞</span>
+            <div class="footer-links">
+              <p align="center">  <a href="about.html">About This Project</a></p><br>
+                <p align="center"> <a href="https://www.boolean-algebra.com/">Boolean Algebra Simplifier</a></p><br>
+                
+            </div>
         </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="container">
-        <form  class="card-form">
-            <select id="inpType" class="iType">
-                <option value="inpdec" >Decimal</option>
-                <option value="inpbin">Binary</option>
-                <option value="inpoct">Octal</option>
-                <option value="inphex">Hexa-decimal</option>
-            </select>
-
-            <input class="iNum" id="inpNum" placeholder="Enter a number">
-
-            <div class="action">
-                <button class="action-button" onclick="return convert()">Convert</button>
-            </div>
-
-            <select class="oType" id="opType">
-                <option value="opbin">Binary</option>
-                <option value="opoct">Octal</option>
-                <option value="ophex">Hexa-decimal</option>
-                <option value="opdec">Decimal</option>
-            </select>
-
-            <input id="opNum" class="oNum" placeholder="Result">
-         <!-- Copy Button -->
-            <button type="button" class="copy-button" onclick="copyResult()">Copy</button><br>
-
-            
-          <p align="center"> <a href="about.html">About This Project</a>
-                                                                                                 </p><br>
-           
-           <p align="center"> 
-               <a href="https://www.boolean-algebra.com"/> Boolean Algebra Simplifier
-                </a></p>
-         
-        </form>
-    </div>
-
-    <!-- External JS -->
     <script src="Assets/mainJs.js"></script>
-
-    <!-- JS for Preloader -->
-    <script>
-        window.addEventListener('load', () => {
-            document.getElementById('preloader').style.display = 'none';
-        });
-
-        // JavaScript to copy result to clipboard
-        function copyResult() {
-            const resultField = document.getElementById('opNum');
-            resultField.select();
-            resultField.setSelectionRange(0, 99999); // For mobile devices
-            document.execCommand('copy');
-
-            alert("Copied: " + resultField.value);
-        }
-    </script>
 </body>
-
 </html>
