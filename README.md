@@ -19,7 +19,7 @@ A powerful, user-friendly tool for converting between binary, octal, decimal, an
 
 ## Live Demo
 
-Try the converter now: [https://from-tanim.github.io/BaseX](https://from-tanim.github.io/BaseX)
+Try the converter now: [https://basex0.vercel.app/)](https://basex0.vercel.app/)
 
 ## Screenshots
 
