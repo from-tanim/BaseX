@@ -23,13 +23,13 @@
 
 /* Base Styles */
 :root {
-    --primary-color: #2d6094f5;
-    --secondary-color: #52974d;
+    --primary-color: #349750;
+    --secondary-color: #000000;
     --error-color: #ea4335;
     --text-color: #ffffff;
     --bg-color: #5d2020;
-    --card-bg: #000000;
-    --border-color: #bbbe05;
+    --card-bg: #12774d;
+    --border-color: #fbff05;
 }
 
 * {
@@ -61,11 +61,11 @@ body {
 
 .symbolic-background span {
     position: absolute;
-    color: #5d2020; /* White symbols with low opacity */
+    color: #00ff65; /* White symbols with low opacity */
     font-size: clamp(1.5rem, 3vw, 2.5rem);
     font-weight: 700;
     font-family: 'Courier New', monospace; /* Techy font */
-    text-shadow: 0 0 8px #841309; /* Glow effect */
+    text-shadow: 0 0 8px #c4bdbd; /* Glow effect */
     animation: float 18s infinite ease-out;
     opacity: 0;
     animation-fill-mode: both;
@@ -108,7 +108,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(10, 10, 10, 0.95); /* Semi-transparent black */
+    background: rgb(10 10 10 / 50%); /* Semi-transparent black */
     display: flex;
     justify-content: center;
     align-items: center;
