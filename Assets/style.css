@@ -23,7 +23,7 @@
 
 /* Base Styles */
 :root {
-    --primary-color: #349750;
+    --primary-color: #4CAF50;
     --secondary-color: #000000;
     --error-color: #ea4335;
     --text-color: #ffffff;
@@ -39,13 +39,12 @@
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    line-height: 1.6;
-    overflow-x: hidden;
+    font-family: 'Roboto Mono', monospace;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    overflow-x: hidden;
 }
-
 /* Dark Symbolic Background */
 .symbolic-background {
     position: fixed;
