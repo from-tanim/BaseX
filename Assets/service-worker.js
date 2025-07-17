@@ -3,20 +3,39 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open('number-system-converter-v1').then((cache) => {
       return cache.addAll([
-        '/',               // root page
-        '/index.html',     // HTML page
-        '/style.css',      // CSS stylesheet
-        '/mainJs.js'       // JavaScript file
+        '/',
+        '/index.html',
+        '/Assets/style.css',
+        '/Assets/mainJs.js',
+        '/Assets/manifest.json',
+        '/Assets/basex-white.png' // Host this locally instead of using GitHub raw URL
       ]);
     })
   );
+  self.skipWaiting(); // Activate immediately
 });
 
-// Fetch event - serving cached files when offline
+// Activate event - remove old caches
+self.addEventListener('activate', (event) => {
+  const cacheWhitelist = ['number-system-converter-v1'];
+  event.waitUntil(
+    caches.keys().then((cacheNames) =>
+      Promise.all(
+        cacheNames.map((cacheName) => {
+          if (!cacheWhitelist.includes(cacheName)) {
+            return caches.delete(cacheName);
+          }
+        })
+      )
+    )
+  );
+  self.clients.claim();
+});
+
+// Fetch event - serve from cache if available
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((response) => {
-      // If there's a cached match, return it, otherwise fetch from network
       return response || fetch(event.request);
     })
   );
