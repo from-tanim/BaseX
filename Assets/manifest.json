@@ -9,12 +9,12 @@
   "description": "BaseX is a simple and fast number system converter for Binary, Decimal, Octal, and Hex.",
   "icons": [
     {
-      "src": "https://raw.githubusercontent.com/from-tanim/BaseX/refs/heads/main/Assets/basex-white.png",
+      "src": "/Assets/basex-white.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "https://raw.githubusercontent.com/from-tanim/BaseX/refs/heads/main/Assets/basex-white.png",
+      "src": "/Assets/basex-white.png",
       "sizes": "512x512",
       "type": "image/png"
     }
