@@ -1,27 +1,4 @@
-/* Style for the preloader container */
-#preloader {
-    position: fixed; /* Fixes it to the viewport */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #fff; /* A solid color background */
-    display: flex; /* Flexbox for easy centering */
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; /* Ensures it's on top of everything */
-}
-
-/* Style for the GIF inside the preloader */
-#preloader img {
-    width: 100px; /* Adjust size as needed */
-    height: 100px;
-}
-
-/* You can add a fade-out animation for a smoother transition */
-
-
-/* Base Styles */
+/* ===== Base Styles ===== */
 :root {
     --primary-color: #4CAF50;
     --secondary-color: #000000;
@@ -30,6 +7,8 @@
     --bg-color: #5d2020;
     --card-bg: #12774d;
     --border-color: #fbff05;
+    --shadow-color: rgba(5, 65, 15, 0.5);
+    --hover-color: #349750;
 }
 
 * {
@@ -39,13 +18,14 @@
 }
 
 body {
-    font-family: 'Roboto Mono', monospace;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    line-height: 1.6;
-    overflow-x: hidden;
+    font-family: 'Roboto Mono', monospace;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    overflow-x: hidden;
 }
-/* Dark Symbolic Background */
+
+/* ===== Background Animation ===== */
 .symbolic-background {
     position: fixed;
     top: 0;
@@ -60,28 +40,28 @@ body {
 
 .symbolic-background span {
     position: absolute;
-    color: #00ff65; /* White symbols with low opacity */
+    color: #00ff65;
     font-size: clamp(1.5rem, 3vw, 2.5rem);
     font-weight: 700;
-    font-family: 'Courier New', monospace; /* Techy font */
-    text-shadow: 0 0 8px #c4bdbd; /* Glow effect */
+    font-family: 'Courier New', monospace;
+    text-shadow: 0 0 8px #c4bdbd;
     animation: float 18s infinite ease-out;
     opacity: 0;
     animation-fill-mode: both;
     will-change: transform, opacity;
 }
 
-/* Different symbols for techy feel */
+/* Symbol definitions */
 .symbolic-background span:nth-child(1) { content: "{}"; left: 5%; animation-delay: 0s; }
 .symbolic-background span:nth-child(2) { content: "</>"; left: 15%; animation-delay: 1.5s; }
-.symbolic-background span:nth-child(3) { content: "âˆž"; left: 25%; animation-delay: 3s; }
-.symbolic-background span:nth-child(4) { content: "Ï€"; left: 35%; animation-delay: 4.5s; }
-.symbolic-background span:nth-child(5) { content: "âˆ‘"; left: 45%; animation-delay: 6s; }
-.symbolic-background span:nth-child(6) { content: "Î©"; left: 55%; animation-delay: 7.5s; }
-.symbolic-background span:nth-child(7) { content: "â‰ "; left: 65%; animation-delay: 9s; }
-.symbolic-background span:nth-child(8) { content: "â‰¡"; left: 75%; animation-delay: 10.5s; }
-.symbolic-background span:nth-child(9) { content: "âˆ«"; left: 85%; animation-delay: 12s; }
-.symbolic-background span:nth-child(10) { content: "âˆ†"; left: 95%; animation-delay: 13.5s; }
+.symbolic-background span:nth-child(3) { content: "∞"; left: 25%; animation-delay: 3s; }
+.symbolic-background span:nth-child(4) { content: "π"; left: 35%; animation-delay: 4.5s; }
+.symbolic-background span:nth-child(5) { content: "∑"; left: 45%; animation-delay: 6s; }
+.symbolic-background span:nth-child(6) { content: "Ω"; left: 55%; animation-delay: 7.5s; }
+.symbolic-background span:nth-child(7) { content: "≠"; left: 65%; animation-delay: 9s; }
+.symbolic-background span:nth-child(8) { content: "≡"; left: 75%; animation-delay: 10.5s; }
+.symbolic-background span:nth-child(9) { content: "∫"; left: 85%; animation-delay: 12s; }
+.symbolic-background span:nth-child(10) { content: "∆"; left: 95%; animation-delay: 13.5s; }
 
 @keyframes float {
     0% {
@@ -100,14 +80,14 @@ body {
     }
 }
 
-/* Dark Preloader */
+/* ===== Preloader Styles ===== */
 #preloader {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgb(10 10 10 / 50%); /* Semi-transparent black */
+    background: rgba(10, 10, 10, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -123,7 +103,7 @@ body {
 .math-symbols span {
     font-size: 3rem;
     color: rgba(255, 255, 255, 0.8);
-    text-shadow: 0 0 12px rgba(100, 200, 255, 0.5); /* Blueish glow */
+    text-shadow: 0 0 12px rgba(100, 200, 255, 0.5);
     animation: pulse 1.8s infinite ease-in-out;
     font-family: 'Courier New', monospace;
 }
@@ -140,7 +120,7 @@ body {
     }
 }
 
-/* Main Container */
+/* ===== Main Container ===== */
 .container {
     max-width: 800px;
     margin: 2rem auto;
@@ -150,7 +130,7 @@ body {
 .converter-card {
     background: var(--card-bg);
     border-radius: 10px;
-    box-shadow: 0 4px 20px rgb(5 65 15);
+    box-shadow: 0 4px 20px var(--shadow-color);
     padding: 2rem;
     position: relative;
     overflow: hidden;
@@ -158,12 +138,12 @@ body {
 
 .converter-card h4 {
     text-align: center;
-    
     margin-bottom: 1.5rem;
     color: var(--primary-color);
+    font-size: 1.5rem;
 }
 
-/* Input/Output Sections */
+/* ===== Input/Output Sections ===== */
 .input-section, .output-section {
     margin-bottom: 1.5rem;
 }
@@ -176,6 +156,7 @@ body {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 500;
+    color: var(--text-color);
 }
 
 .select-box, .input-field {
@@ -184,21 +165,20 @@ body {
     border: 1px solid var(--border-color);
     border-radius: 5px;
     font-size: 1rem;
-    transition: border 0.3s ease;
+    transition: all 0.3s ease;
+    background-color: #ffffff;
+    color: #333;
 }
 
 .select-box:focus, .input-field:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
-}
-
-.input-field {
-    background-color: #ffffff;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
 }
 
 .result-field {
-    background-color: rgb(255 255 255);
+    background-color: #ffffff;
+    color: #333;
 }
 
 .error-message {
@@ -206,9 +186,11 @@ body {
     font-size: 0.875rem;
     margin-top: 0.25rem;
     height: 1rem;
+    display: block;
+    min-height: 1rem;
 }
 
-/* Buttons */
+/* ===== Button Styles ===== */
 .action-buttons {
     display: flex;
     gap: 1rem;
@@ -229,7 +211,8 @@ body {
 }
 
 .action-button:hover {
-    background-color: #000000;
+    background-color: var(--hover-color);
+    transform: translateY(-1px);
 }
 
 .action-button.secondary {
@@ -239,6 +222,7 @@ body {
 
 .action-button.secondary:hover {
     background-color: #dddddd;
+    color: #333;
 }
 
 .copy-button {
@@ -251,14 +235,14 @@ body {
     font-size: 1rem;
     font-weight: 500;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
     margin-top: 0.5rem;
     width: 100%;
     overflow: hidden;
 }
 
 .copy-button:hover {
-    background-color: #349750;
+    background-color: var(--hover-color);
 }
 
 .copy-text, .copy-success {
@@ -281,7 +265,7 @@ body {
     opacity: 1;
 }
 
-/* History Section */
+/* ===== History Section ===== */
 .history-section {
     margin-top: 2rem;
     border-top: 1px solid var(--border-color);
@@ -291,6 +275,7 @@ body {
 .history-section h3 {
     margin-bottom: 1rem;
     color: var(--primary-color);
+    font-size: 1.25rem;
 }
 
 .history-list {
@@ -299,6 +284,7 @@ body {
     border: 1px solid var(--border-color);
     border-radius: 5px;
     padding: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .history-item {
@@ -307,6 +293,11 @@ body {
     align-items: center;
     padding: 0.75rem;
     border-bottom: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.history-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .history-item:last-child {
@@ -323,6 +314,7 @@ body {
     flex: 1;
     margin: 0 1rem;
     font-size: 0.875rem;
+    color: var(--text-color);
 }
 
 .history-use-btn {
@@ -340,32 +332,43 @@ body {
     color: white;
 }
 
-
 .no-history {
-    color: #666;
+    color: #908f8f;
     text-align: center;
     padding: 1rem;
     font-style: italic;
 }
 
-.history-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.75rem;
-    border-bottom: 1px solid var(--border-color);
-    transition: background-color 0.2s;
+/* ===== Rounded Box Styles ===== */
+.rounded-box {
+    width: 100%;
+    max-width: 300px;
+    margin: 20px auto;
+    background-color: rgba(249, 249, 249, 0.1);
+    border: 2px solid var(--border-color);
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto Mono', monospace;
+    color: var(--text-color);
 }
 
-.history-item:hover {
-    background-color: #f9f9f9;
+.rounded-box a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    margin: 10px 0;
+    transition: color 0.3s;
 }
 
+.rounded-box a:hover {
+    color: var(--hover-color);
+    text-decoration: underline;
+}
 
-/* Footer Links */
-
-
-/* Responsive Design */
+/* ===== Responsive Design ===== */
 @media (max-width: 768px) {
     .container {
         margin: 1rem auto;
@@ -374,6 +377,10 @@ body {
     
     .converter-card {
         padding: 1.5rem;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
     }
     
     .history-item {
@@ -391,39 +398,20 @@ body {
     
     .history-use-btn {
         align-self: flex-end;
+        margin-top: 0.5rem;
     }
-    .rounded-box {
-    width: 250px;
-    height: 150px;
-    background-color: lightgreen;
-    border-radius: 15px;
-    border: 2px solid #333;
-    padding: 15px;
-    text-align: center;
-  }
     
-    .rounded-box {
-    border: 2px solid #ccc;
-    border-radius: 15px;
-    padding: 20px;
-    width: 300px; /* or 100% for full width */
-    margin: 20px auto;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
-  }
+    .math-symbols span {
+        font-size: 2rem;
+    }
+}
 
-  .rounded-box a {
-    color: #007bff;
-    text-decoration: none;
-    font-weight: bold;
-    display: inline-block;
-    margin: 10px 0;
-    transition: color 0.3s;
-  }
+/* ===== Animations ===== */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
 
-  .rounded-box a:hover {
-    color: #0056b3;
-    text-decoration: underline;
-  }
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
 }
