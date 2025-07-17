@@ -35,7 +35,7 @@ body {
     z-index: -1;
     overflow: hidden;
     pointer-events: none;
-    background: linear-gradient(135deg, #1f1d1d 0%, #0b3704 100%);
+    background: linear-gradient(135deg, #1f1d1d 0%, #043037 100%);
 }
 
 .symbolic-background span {
@@ -128,12 +128,17 @@ body {
 }
 
 .converter-card {
-    background: var(--card-bg);
+    width: 100%;
+    max-width: 700px;
+    margin: 40px auto;
+    background-color: rgb(17 34 10 / 96%);
+    border: 2px solid var(--border-color);
     border-radius: 10px;
-    box-shadow: 0 4px 20px var(--shadow-color);
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
+    padding: 20px;
+    text-align: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto Mono', monospace;
+    color: var(--text-color);
 }
 
 .converter-card h4 {
@@ -226,19 +231,17 @@ body {
 }
 
 .copy-button {
-    position: relative;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 5px;
-    background-color: var(--secondary-color);
-    color: #ffffff;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 0.5rem;
     width: 100%;
-    overflow: hidden;
+    max-width: 300px;
+    margin: 20px auto;
+    background-color: rgb(29 34 10 / 96%);
+    border: 2px solid var(--border-color);
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto Mono', monospace;
+    color: var(--text-color);
 }
 
 .copy-button:hover {
@@ -342,12 +345,12 @@ body {
 /* ===== Rounded Box Styles ===== */
 .rounded-box {
     width: 100%;
-    max-width: 300px;
-    margin: 20px auto;
-    background-color: rgba(249, 249, 249, 0.1);
+    max-width: 290px;
+    margin: 15px auto;
+    background-color: rgb(7 14 25 / 67%);
     border: 2px solid var(--border-color);
-    border-radius: 15px;
-    padding: 20px;
+    border-radius: 1.5px;
+    padding: 2.0px;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     font-family: 'Roboto Mono', monospace;
