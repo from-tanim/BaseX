@@ -74,16 +74,11 @@
                         <option value="opoct">Octal</option>
                         <option value="ophex">Hexadecimal</option>
                         <option value="opdec" selected>Decimal</option>
-                    </select>
+                    </select><br>
+                    <input id="opNum" class="input-field result-field" placeholder="Result" readonly>
                 </div>
                 
-                <div class="input-group">
-                    <input id="opNum" class="input-field result-field" placeholder="Result" readonly>
-                    <button type="button" class="copy-button" onclick="copyResult()">
-                        <span class="copy-text">Copy</span>
-                        <span class="copy-success">✓ Copied!</span>
-                    </button>
-                </div>
+                
             </div>
 
             <div class="action-buttons">
@@ -91,7 +86,13 @@
                 <button class="action-button secondary" onclick="clearFields()">Clear</button>
             </div>
 
-            
+            <div class="input-group">
+                    
+                    <button type="button" class="copy-button" onclick="copyResult()">
+                        <span class="copy-text">Copy</span>
+                        <span class="copy-success">✓ Copied!</span>
+                    </button>
+                </div>
 
 
 <div class="history-section">
