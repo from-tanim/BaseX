@@ -1,7 +1,7 @@
 {
-  "name": "BaseX",
+  "name": "BaseXpert",
   "short_name": "Base&Converter",
-  "start_url": "https://basex0.vercel.app/",
+  "start_url": "https://basexpert.vercel.app/",
   "scope": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -9,12 +9,12 @@
   "description": "BaseX is a simple and fast number system converter for Binary, Decimal, Octal, and Hex.",
   "icons": [
     {
-      "src": "/Assets/basex-white.png",
+      "src": "basex-white.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/Assets/basex-white.png",
+      "src": "basex-white.png",
       "sizes": "512x512",
       "type": "image/png"
     }
