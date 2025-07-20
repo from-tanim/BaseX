@@ -1,6 +1,6 @@
 {
   "name": "BaseXpert",
-  "short_name": "Base&amp;Converter",
+  "short_name": "Base&Converter",
   "start_url": "https://basexpert.vercel.app/",
   "scope": "/",
   "display": "standalone",
