@@ -8,9 +8,17 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           java-version: '17'
-          distribution: 'temurin'  # or 'zulu', 'corretto'
-      - run: chmod +x gradlew
-      - run: ./gradlew assembleDebug
+          distribution: 'temurin'
+      
+      # Verify project structure
+      - name: Check Android files
+        run: |
+          ls -la
+          ls -la app/
+      
+      # Build with module prefix
+      - run: ./gradlew :app:assembleDebug
+      
       - uses: actions/upload-artifact@v4
         with:
           name: app-debug.apk
