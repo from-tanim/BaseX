@@ -1,6 +1,6 @@
 {
   "name": "BaseXpert",
-  "short_name": "Base&Converter",
+  "short_name": "Base&amp;Converter",
   "start_url": "https://basexpert.vercel.app/",
   "scope": "/",
   "display": "standalone",
@@ -18,5 +18,10 @@
       "sizes": "512x512",
       "type": "image/png"
     }
+  ],
+  "orientation": "portrait-primary",
+  "categories": [
+    "education",
+    "productivity"
   ]
 }
