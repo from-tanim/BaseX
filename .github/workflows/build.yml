@@ -8,6 +8,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           java-version: '17'
+          distribution: 'temurin'  # or 'zulu', 'corretto'
       - run: chmod +x gradlew
       - run: ./gradlew assembleDebug
       - uses: actions/upload-artifact@v4
